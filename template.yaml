@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: My first serverless application.
+
+Resources:
+
+  Products:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: picture.handler
+      Runtime: nodejs8.10
+      Timeout: 10
+      Events:
+        ListPictures:
+          Type: Api
+          Properties:
+            Path: /picture
+            Method: get
+        AddPicture:
+          Type: Api
+          Properties:
+            Path: /picture
+            Method: post
+        UpdatePicture:
+          Type: Api
+          Properties:
+            Path: /pictures/{picture}
+            Method: patch
