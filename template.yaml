@@ -4,12 +4,12 @@ Description: My first serverless application.
 
 Resources:
 
-  Products:
+  Pictures:
     Type: AWS::Serverless::Function
     Properties:
       Handler: picture.handler
       Runtime: nodejs8.10
-      Timeout: 10
+      Timeout: 30
       Events:
         ListPictures:
           Type: Api

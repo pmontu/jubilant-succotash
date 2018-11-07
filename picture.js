@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 var s3 = new AWS.S3();
 AWS.config.update({region:'us-east-2'});
 const dynamo = new AWS.DynamoDB.DocumentClient();
-const tableName = "PictureOverlay"
+const tableName = "PictureOverlay3"
 var uuid = require('node-uuid');
 
 const createResponse = (statusCode, body) => {
@@ -67,7 +67,7 @@ const getAll = async () => {
     for(var i=0; i<data.Count; i++){
         item = data.Items[i];
         var picParams = {
-            "Bucket": "manoj-memorang",
+            "Bucket": "manoj-memorang3",
             "Key": item.FileName
         };
         console.log("GET")
@@ -97,12 +97,14 @@ exports.handler = async (event, context, callback) => {
             var fileName = "avatar/" + uuid4 + ".jpg"
             var params = {
                 "Body": decodedImage,
-                "Bucket": "manoj-memorang",
+                "Bucket": "manoj-memorang3",
                 "Key": fileName  
             };
-            console.log("POST")
+            console.log("POST before upload")
             await s3.upload(params).promise();
+            console.log("POST before creating entry in db")
             await createEntryInDB(fileName);
+            console.log("POST complete")
             return createResponse(200, "uploaded");
 
         case "PATCH":
