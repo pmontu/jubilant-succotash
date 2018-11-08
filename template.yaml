@@ -26,3 +26,7 @@ Resources:
           Properties:
             Path: /pictures/{picture}
             Method: patch
+      Environment:
+        Variables:
+          TABLE_NAME: PictureOverlay3
+          BUCKET_NAME: manoj-memorang3

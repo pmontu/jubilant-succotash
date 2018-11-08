@@ -1,9 +1,11 @@
 const AWS = require('aws-sdk');
-var s3 = new AWS.S3();
-AWS.config.update({region:'us-east-2'});
-const dynamo = new AWS.DynamoDB.DocumentClient();
-const tableName = "PictureOverlay3"
 var uuid = require('node-uuid');
+
+const tableName = process.env.TABLE_NAME;
+const bucket = process.env.BUCKET_NAME;
+
+var s3 = new AWS.S3();
+const dynamo = new AWS.DynamoDB.DocumentClient();
 
 const createResponse = (statusCode, body) => {
     
@@ -45,6 +47,7 @@ const getAll = async () => {
     let params = {
         TableName: tableName
     };
+    console.log(params)
     let data;
     
     try {
@@ -67,7 +70,7 @@ const getAll = async () => {
     for(var i=0; i<data.Count; i++){
         item = data.Items[i];
         var picParams = {
-            "Bucket": "manoj-memorang3",
+            "Bucket": bucket,
             "Key": item.FileName
         };
         console.log("GET")
@@ -97,7 +100,7 @@ exports.handler = async (event, context, callback) => {
             var fileName = "avatar/" + uuid4 + ".jpg"
             var params = {
                 "Body": decodedImage,
-                "Bucket": "manoj-memorang3",
+                "Bucket": bucket,
                 "Key": fileName  
             };
             console.log("POST before upload")

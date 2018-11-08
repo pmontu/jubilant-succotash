@@ -58,10 +58,29 @@ cd jubilant-succotash
 npm install
 ```
 
-start project on port 3000
-`AWS_ACCESS_KEY_ID=<key> AWS_SECRET_ACCESS_KEY=<secret> sam local start-api`
+please copy Table Name, Bucket Name to template.yaml like below. ([reference](https://stackoverflow.com/a/48139216/553748))
+```
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: My first serverless application.
+Resources:
+  Pictures:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: picture.handler
+      Runtime: nodejs8.10
+      ...
+      Environment:
+        Variables:
+          TABLE_NAME: <table-name>
+          BUCKET_NAME: <bucket-name>
+```
 
-test on postman
+start project on port 3000.
+please replace key and secret.
+`sam local start-api`
+
+test the urls on terminal
 ```
 curl -X GET \
   http://localhost:3000/picture
